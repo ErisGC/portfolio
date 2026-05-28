@@ -3,8 +3,20 @@
 <p align="center">
   <em>Mi página web personal · terminal aesthetic</em>
   <br/>
-  <em>Next.js 15 · Tailwind 4 · TypeScript · Framer Motion · Vercel</em>
+  <em>Next.js 16 · Tailwind 4 · TypeScript · Vercel</em>
 </p>
+
+<p align="center">
+  <a href="https://rubengutierrez.vercel.app">
+    <img alt="Live" src="https://img.shields.io/badge/live-rubengutierrez.vercel.app-5fd7a7?style=for-the-badge&logo=vercel&logoColor=white" />
+  </a>
+</p>
+
+---
+
+## 🌐 Demo en vivo
+
+**[rubengutierrez.vercel.app](https://rubengutierrez.vercel.app)**
 
 ---
 
