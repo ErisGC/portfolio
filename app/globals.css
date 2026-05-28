@@ -1,0 +1,153 @@
+@import "tailwindcss";
+
+@theme {
+  /* Paleta terminal: fondo casi negro + acentos verde/cyan/violeta */
+  --color-bg: #0a0e14;
+  --color-bg-elevated: #0f141b;
+  --color-bg-overlay: #151b23;
+  --color-border: #1f2730;
+  --color-border-strong: #2a3441;
+
+  --color-fg: #c5d1de;
+  --color-fg-muted: #7a8694;
+  --color-fg-dim: #4a5462;
+
+  --color-accent: #5fd7a7;       /* verde terminal moderno */
+  --color-accent-dim: #3aa97f;
+  --color-cyan: #7dd3fc;
+  --color-violet: #c4b5fd;
+  --color-yellow: #fbbf24;
+  --color-red: #f87171;
+  --color-orange: #fb923c;
+
+  --font-mono: "JetBrains Mono", "Geist Mono", "Fira Code", ui-monospace,
+    SFMono-Regular, Menlo, Consolas, monospace;
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
+
+  --animate-blink: blink 1s step-end infinite;
+  --animate-scan: scan 6s ease-in-out infinite;
+  --animate-glow: glow 2.5s ease-in-out infinite;
+  --animate-float: float 4s ease-in-out infinite;
+}
+
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+@keyframes scan {
+  0%, 100% { transform: translateY(0); opacity: 0.2; }
+  50% { transform: translateY(100vh); opacity: 0.5; }
+}
+
+@keyframes glow {
+  0%, 100% { box-shadow: 0 0 12px rgba(95, 215, 167, 0.15); }
+  50% { box-shadow: 0 0 24px rgba(95, 215, 167, 0.35); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+* {
+  border-color: var(--color-border);
+}
+
+html, body {
+  background: var(--color-bg);
+  color: var(--color-fg);
+  font-family: var(--font-mono);
+  font-feature-settings: "ss01", "ss02", "ss03", "cv11";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background-image:
+    radial-gradient(at 0% 0%, rgba(95, 215, 167, 0.04) 0px, transparent 50%),
+    radial-gradient(at 100% 100%, rgba(196, 181, 253, 0.04) 0px, transparent 50%),
+    linear-gradient(rgba(255,255,255,0.012) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.012) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 100%, 32px 32px, 32px 32px;
+}
+
+::selection {
+  background: var(--color-accent);
+  color: var(--color-bg);
+}
+
+/* Scrollbar custom */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-bg);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-border-strong);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-fg-dim);
+}
+
+/* Cursor parpadeante */
+.cursor {
+  display: inline-block;
+  width: 0.55em;
+  height: 1em;
+  background: var(--color-accent);
+  vertical-align: text-bottom;
+  margin-left: 2px;
+  animation: blink 1s step-end infinite;
+}
+
+/* Scanline sutil sobre toda la pagina */
+.scanline::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(95, 215, 167, 0.03) 50%,
+    transparent 100%
+  );
+  background-size: 100% 4px;
+  z-index: 1;
+  mix-blend-mode: overlay;
+}
+
+/* Utility de glow */
+.text-glow {
+  text-shadow: 0 0 12px currentColor;
+}
+
+/* Link hover terminal */
+a.term-link {
+  color: var(--color-cyan);
+  position: relative;
+  transition: color 0.15s;
+}
+a.term-link:hover {
+  color: var(--color-accent);
+}
+a.term-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -2px;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.25s ease;
+}
+a.term-link:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
