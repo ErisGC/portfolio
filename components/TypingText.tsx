@@ -8,6 +8,8 @@ type TypingTextProps = {
   delay?: number;
   className?: string;
   cursor?: boolean;
+  paused?: boolean;
+  instant?: boolean;
   onDone?: () => void;
 };
 
@@ -17,14 +19,27 @@ export function TypingText({
   delay = 0,
   className = "",
   cursor = true,
+  paused = false,
+  instant = false,
   onDone,
 }: TypingTextProps) {
-  const [displayed, setDisplayed] = useState("");
-  const [done, setDone] = useState(false);
+  const [displayed, setDisplayed] = useState(instant ? text : "");
+  const [done, setDone] = useState(instant);
 
   useEffect(() => {
+    // Modo instantaneo: muestra todo y marca como hecho
+    if (instant) {
+      setDisplayed(text);
+      setDone(true);
+      onDone?.();
+      return;
+    }
+
+    if (paused) return;
+
     let cancelled = false;
-    let i = 0;
+    let i = displayed.length;
+
     const tick = () => {
       if (cancelled) return;
       if (i <= text.length) {
@@ -36,17 +51,20 @@ export function TypingText({
         onDone?.();
       }
     };
-    const startTimer = setTimeout(tick, delay);
+
+    const startTimer = setTimeout(tick, displayed.length === 0 ? delay : 0);
     return () => {
       cancelled = true;
       clearTimeout(startTimer);
     };
-  }, [text, speed, delay, onDone]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [text, speed, delay, paused, instant]);
 
   return (
     <span className={className}>
       {displayed}
-      {cursor && !done && <span className="cursor" />}
+      {cursor && !done && !paused && <span className="cursor" />}
+      {cursor && paused && <span className="cursor opacity-50" />}
     </span>
   );
 }
